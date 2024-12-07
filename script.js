@@ -18,12 +18,18 @@ function setButtonListeners() {
         button.addEventListener("click", event => {
             if (isError) {
                 isError = false;
-                primaryDisplay.textContent = "";
+                primaryDisplay.textContent = "0";
             }
 
             if ((event.target.textContent === "-" && !primaryDisplay.textContent) || digits.includes(event.target.textContent)) {
                 if (event.target.textContent !== "." || !primaryDisplay.textContent.includes(".")) {
-                    primaryDisplay.textContent = primaryDisplay.textContent.concat(event.target.textContent);
+                    let res = primaryDisplay.textContent.concat(event.target.textContent)
+                    if (event.target.textContent !== "." && event.target.textContent !== "0") {
+                        primaryDisplay.textContent = Number(res);
+                    } else {
+                        primaryDisplay.textContent = res;
+                    }
+                    // primaryDisplay.textContent = Number(primaryDisplay.textContent.concat(event.target.textContent));
                 }
             } else if ((secondaryDisplay.textContent || primaryDisplay.textContent) && binaryOperations.includes(event.target.textContent)) {
                 if (!primaryDisplay.textContent) {
@@ -39,13 +45,13 @@ function setButtonListeners() {
                     } else {
                         secondaryDisplay.textContent = res;
                         secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${event.target.textContent} `);
-                        primaryDisplay.textContent = "";
+                        primaryDisplay.textContent = "0";
                     }
                 } else {
                     secondaryDisplay.textContent = secondaryDisplay.textContent
                         .concat(primaryDisplay.textContent)
                         .concat(` ${event.target.textContent} `);
-                    primaryDisplay.textContent = "";
+                    primaryDisplay.textContent = "0";
                 }
             } else if (unaryOperations.includes(event.target.id)) {
                 const res = operateOnUnary(event.target.id);
@@ -104,7 +110,7 @@ function add(num1, num2) {
 
     if (isNaN(num1) || isNaN(num2)) return;
 
-    return num1 + num2;
+    return Number((num1 + num2).toFixed(10));
 }
 
 function subtract(num1, num2) {
@@ -116,7 +122,7 @@ function subtract(num1, num2) {
 
     if (isNaN(num1) || isNaN(num2)) return;
 
-    return num1 - num2;
+    return Number((num1 - num2).toFixed(10));
 }
 
 function multiply(num1, num2) {
@@ -128,7 +134,7 @@ function multiply(num1, num2) {
 
     if (isNaN(num1) || isNaN(num2)) return;
 
-    return num1 * num2;
+    return Number((num1 * num2).toFixed(10));
 }
 
 function divide(num1, num2) {
@@ -157,7 +163,7 @@ function percentage(num) {
     num = Number(num);
 
     if (isNaN(num)) return;
-    return num / 100;
+    return Number((num / 100).toFixed(10));
 }
 
 function clear() {
