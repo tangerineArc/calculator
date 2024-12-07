@@ -13,7 +13,9 @@ function setButtonListeners() {
     document.querySelectorAll(".buttons > div > button").forEach(button => {
         button.addEventListener("click", event => {
             if ((event.target.textContent === "-" && !primaryDisplay.textContent) || digits.includes(event.target.textContent)) {
-                primaryDisplay.textContent = primaryDisplay.textContent.concat(event.target.textContent);
+                if (event.target.textContent !== "." || !primaryDisplay.textContent.includes(".")) {
+                    primaryDisplay.textContent = primaryDisplay.textContent.concat(event.target.textContent);
+                }
             } else if (primaryDisplay.textContent && binaryOperations.includes(event.target.textContent)) {
                 const secondaryDisplayText = secondaryDisplay.textContent.trim();
                 if (binaryOperations.includes(secondaryDisplayText[secondaryDisplayText.length - 1])) {
