@@ -21,19 +21,32 @@ function operate(type) {
         case "negation":
             res = negate(primaryDisplay.textContent);
             break;
-        case "absolute":
+        case "percentage":
             res = absolute(primaryDisplay.textContent);
             break;
+        case "addition":
+            res = add(secondaryDisplay.textContent, primaryDisplay.textContent);
+            break;
+        case "subtraction":
+            res = subtract(secondaryDisplay.textContent, primaryDisplay.textContent);
+            break;
     }
+
     console.log(res);
     return res;
 }
 
 function add(num1, num2) {
+    num1 = Number(num1);
+    num2 = Number(num2);
+    if (isNaN(num1) || isNaN(num2)) return;
     return num1 + num2;
 }
 
 function subtract(num1, num2) {
+    num1 = Number(num1);
+    num2 = Number(num2);
+    if (isNaN(num1) || isNaN(num2)) return;
     return num1 - num2;
 }
 
@@ -51,10 +64,10 @@ function negate(num) {
     return -num;
 }
 
-function absolute(num) {
+function percentage(num) {
     num = Number(num);
     if (isNaN(num)) return;
-    return Math.abs(num);
+    return num / 100;
 }
 
 function clear() {
