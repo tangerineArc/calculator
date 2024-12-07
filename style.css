@@ -1,0 +1,34 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+}
+
+main {
+    width: 320px;
+    height: 715px;
+}
+
+.display {
+    background-color: lightgrey;
+
+    width: 100%;
+    height: 100px;
+}
+
+.secondary-display {
+    height: 30%;
+    background-color: bisque;
+}
+
+.primary-display {
+    height: 70%;
+}
