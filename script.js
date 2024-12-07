@@ -1,5 +1,7 @@
 "use strict";
 
+const ZERO_DIVISION_ERROR = ":(";
+
 const secondaryDisplay = document.querySelector(".secondary-display");
 const primaryDisplay = document.querySelector(".primary-display");
 
@@ -10,8 +12,15 @@ function setButtonListeners() {
     const binaryOperations = ["/", "*", "-", "+"];
     const unaryOperations = ["all-clear", "negation", "percentage"];
 
+    let isError = false;
+
     document.querySelectorAll(".buttons > div > button").forEach(button => {
         button.addEventListener("click", event => {
+            if (isError) {
+                isError = false;
+                primaryDisplay.textContent = "";
+            }
+
             if ((event.target.textContent === "-" && !primaryDisplay.textContent) || digits.includes(event.target.textContent)) {
                 if (event.target.textContent !== "." || !primaryDisplay.textContent.includes(".")) {
                     primaryDisplay.textContent = primaryDisplay.textContent.concat(event.target.textContent);
@@ -22,9 +31,16 @@ function setButtonListeners() {
                         .slice(0, secondaryDisplay.textContent.length - 3)
                         .concat(` ${event.target.textContent} `);
                 } else if (binaryOperations.includes(secondaryDisplay.textContent.at(-2))) {
-                    secondaryDisplay.textContent = calculate()
-                    secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${event.target.textContent} `);
-                    primaryDisplay.textContent = "";
+                    const res = calculate();
+                    if (res === ZERO_DIVISION_ERROR) {
+                        primaryDisplay.textContent = ZERO_DIVISION_ERROR;
+                        secondaryDisplay.textContent = "";
+                        isError = true;
+                    } else {
+                        secondaryDisplay.textContent = res;
+                        secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${event.target.textContent} `);
+                        primaryDisplay.textContent = "";
+                    }
                 } else {
                     secondaryDisplay.textContent = secondaryDisplay.textContent
                         .concat(primaryDisplay.textContent)
@@ -37,7 +53,11 @@ function setButtonListeners() {
                     primaryDisplay.textContent = res;
                 }
             } else if (event.target.id === "equals") {
-                primaryDisplay.textContent = calculate();
+                const res = calculate();
+                if (res === ZERO_DIVISION_ERROR) {
+                    isError = true;
+                }
+                primaryDisplay.textContent = res;
                 secondaryDisplay.textContent = "";
             } else if (event.target.id === "delete") {
                 primaryDisplay.textContent = primaryDisplay.textContent.slice(0, primaryDisplay.textContent.length - 1);
@@ -119,7 +139,7 @@ function divide(num1, num2) {
     num1 = Number(num1);
 
     if (isNaN(num1) || isNaN(num2)) return;
-    if (num2 === 0) return ":(";
+    if (num2 === 0) return ZERO_DIVISION_ERROR;
 
     return num1 / num2;
 }
