@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -13,22 +15,93 @@ body {
 }
 
 main {
-    width: 320px;
-    height: 715px;
+    width: 400px;
+    padding: 1em;
+    background-color: #0466c8;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .display {
-    background-color: lightgrey;
-
     width: 100%;
-    height: 100px;
+    height: 150px;
+
+    text-align: right;
 }
 
 .secondary-display {
-    height: 30%;
-    background-color: bisque;
+    height: 35%;
+    background-color: #a6e1fa;
+    border-radius: 10px 10px 0px 0px;
+    padding: 0.5em;
+
+    font-family: "Major Mono Display", monospace;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 .primary-display {
-    height: 70%;
+    height: 65%;
+    background-color: #ffffff;
+    border-radius: 0px 0px 10px 10px;
+    padding: 1em;
+
+    font-family: "Major Mono Display", monospace;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.buttons {
+    background-color: #0353a4;
+    border-radius: 10px;
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    flex-grow: 1;
+}
+
+.row-1, .row-2, .row-3, .row-4, .row-5 {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5em;
+}
+
+.buttons button {
+    flex-basis: 0;
+    flex-grow: 1;
+
+    padding: 1em 0.5em;
+    border-radius: 5px;
+    border: none;
+
+    font-family: "Major Mono Display", monospace;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #0a2472;
+
+    cursor: pointer;
+}
+
+#all-clear, #delete {
+    background-color: #a6e1fa;
+}
+
+#negation, #percentage, #division, #multiplication, #subtraction, #addition, #equals {
+    background-color: #ffd60a;
+}
+
+#delete {
+    font-weight: normal;
+}
+
+#equals {
+    background-color: #1c79d5;
+    
+    color: #ffffff;
 }

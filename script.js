@@ -116,7 +116,7 @@ function divide(num1, num2) {
     num1 = Number(num1);
 
     if (isNaN(num1) || isNaN(num2)) return;
-    if (num2 === 0) return "ZeroDivisionError";
+    if (num2 === 0) return ":(";
 
     return num1 / num2;
 }
