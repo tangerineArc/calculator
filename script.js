@@ -16,14 +16,17 @@ function setButtonListeners() {
                 if (event.target.textContent !== "." || !primaryDisplay.textContent.includes(".")) {
                     primaryDisplay.textContent = primaryDisplay.textContent.concat(event.target.textContent);
                 }
-            } else if (primaryDisplay.textContent && binaryOperations.includes(event.target.textContent)) {
-                const secondaryDisplayText = secondaryDisplay.textContent.trim();
-                if (binaryOperations.includes(secondaryDisplayText[secondaryDisplayText.length - 1])) {
+            } else if ((secondaryDisplay.textContent || primaryDisplay.textContent) && binaryOperations.includes(event.target.textContent)) {
+                if (!primaryDisplay.textContent) {
+                    secondaryDisplay.textContent = secondaryDisplay.textContent
+                        .slice(0, secondaryDisplay.textContent.length - 3)
+                        .concat(` ${event.target.textContent} `);
+                } else if (binaryOperations.includes(secondaryDisplay.textContent.at(-2))) {
                     secondaryDisplay.textContent = calculate()
                     secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${event.target.textContent} `);
                     primaryDisplay.textContent = "";
                 } else {
-                    secondaryDisplay.textContent = secondaryDisplayText
+                    secondaryDisplay.textContent = secondaryDisplay.textContent
                         .concat(primaryDisplay.textContent)
                         .concat(` ${event.target.textContent} `);
                     primaryDisplay.textContent = "";
