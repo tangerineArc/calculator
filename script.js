@@ -141,7 +141,7 @@ function divide(num1, num2) {
     if (isNaN(num1) || isNaN(num2)) return;
     if (num2 === 0) return ZERO_DIVISION_ERROR;
 
-    return num1 / num2;
+    return Number((num1 / num2).toFixed(10));
 }
 
 function negate(num) {
@@ -161,6 +161,6 @@ function percentage(num) {
 }
 
 function clear() {
-    primaryDisplay.textContent = "";
+    primaryDisplay.textContent = "0";
     secondaryDisplay.textContent = "";
 }
