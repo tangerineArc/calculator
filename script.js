@@ -38,16 +38,16 @@ function operate(type) {
             break;
     }
 
-    console.log(res);
+    console.log(res, typeof res);
     return res;
 }
 
 function add(num1, num2) {
     if (!num2) return;
-    if (!num1) return num2;
-
-    num1 = Number(num1);
     num2 = Number(num2);
+
+    if (!num1) return num2;
+    num1 = Number(num1);
 
     if (isNaN(num1) || isNaN(num2)) return;
 
@@ -56,10 +56,10 @@ function add(num1, num2) {
 
 function subtract(num1, num2) {
     if (!num2) return;
-    if (!num1) return num2;
-
-    num1 = Number(num1);
     num2 = Number(num2);
+
+    if (!num1) return num2;
+    num1 = Number(num1);
 
     if (isNaN(num1) || isNaN(num2)) return;
 
@@ -68,10 +68,10 @@ function subtract(num1, num2) {
 
 function multiply(num1, num2) {
     if (!num2) return;
-    if (!num1) return num2;
-
-    num1 = Number(num1);
     num2 = Number(num2);
+
+    if (!num1) return num2;
+    num1 = Number(num1);
 
     if (isNaN(num1) || isNaN(num2)) return;
 
@@ -80,10 +80,10 @@ function multiply(num1, num2) {
 
 function divide(num1, num2) {
     if (!num2) return;
-    if (!num1) return num2;
+    num2 = Number(num2);
 
+    if (!num1) return num2;
     num1 = Number(num1);
-    num2 = Number(num2); // from primary display
 
     if (isNaN(num1) || isNaN(num2)) return;
     if (num2 === 0) return "ZeroDivisionError";
@@ -93,19 +93,17 @@ function divide(num1, num2) {
 
 function negate(num) {
     if (!num) return;
-
     num = Number(num)
+
     if (isNaN(num)) return;
-    
     return -num;
 }
 
 function percentage(num) {
     if (!num) return;
-
     num = Number(num);
-    if (isNaN(num)) return;
 
+    if (isNaN(num)) return;
     return num / 100;
 }
 
