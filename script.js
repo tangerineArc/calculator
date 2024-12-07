@@ -26,10 +26,9 @@ function setButtonListeners() {
                     let res = primaryDisplay.textContent.concat(event.target.textContent)
                     if (event.target.textContent !== "." && event.target.textContent !== "0") {
                         primaryDisplay.textContent = Number(res);
-                    } else {
+                    } else if (primaryDisplay.textContent !== "0" || event.target.textContent !== "0") {
                         primaryDisplay.textContent = res;
                     }
-                    // primaryDisplay.textContent = Number(primaryDisplay.textContent.concat(event.target.textContent));
                 }
             } else if ((secondaryDisplay.textContent || primaryDisplay.textContent) && binaryOperations.includes(event.target.textContent)) {
                 if (!primaryDisplay.textContent) {
