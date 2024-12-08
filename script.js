@@ -1,6 +1,7 @@
 "use strict";
 
 const ZERO_DIVISION_ERROR = ":(";
+const MAX_DIGITS_LENGTH = String(Number.MAX_SAFE_INTEGER).length - 1; // 16 - 1 = 15
 
 const secondaryDisplay = document.querySelector(".secondary-display");
 const primaryDisplay = document.querySelector(".primary-display");
@@ -54,6 +55,8 @@ function setButtonListeners() {
         }
 
         if ((targetContent === "-" && !primaryDisplay.textContent) || digits.includes(targetContent)) {
+            if (primaryDisplay.textContent.length === MAX_DIGITS_LENGTH && targetContent !== "-" && targetContent !== "." && !primaryDisplay.textContent.includes(".")) return;
+
             if (targetContent !== "." || !primaryDisplay.textContent.includes(".")) {
                 let res = primaryDisplay.textContent.concat(targetContent)
                 if (targetContent !== "." && targetContent !== "0") {
