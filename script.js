@@ -17,60 +17,92 @@ function setButtonListeners() {
     let isError = false;
 
     document.querySelectorAll(".buttons > div > button").forEach(button => {
-        button.addEventListener("click", event => {
-            if (isError) {
-                isError = false;
-                primaryDisplay.textContent = "0";
-            }
+        button.addEventListener("click", listen);
+    });
 
-            if ((event.target.textContent === "-" && !primaryDisplay.textContent) || digits.includes(event.target.textContent)) {
-                if (event.target.textContent !== "." || !primaryDisplay.textContent.includes(".")) {
-                    let res = primaryDisplay.textContent.concat(event.target.textContent)
-                    if (event.target.textContent !== "." && event.target.textContent !== "0") {
-                        primaryDisplay.textContent = Number(res);
-                    } else if (primaryDisplay.textContent !== "0" || event.target.textContent !== "0") {
-                        primaryDisplay.textContent = res;
-                    }
-                }
-            } else if ((secondaryDisplay.textContent || primaryDisplay.textContent) && binaryOperations.includes(event.target.textContent)) {
-                if (!primaryDisplay.textContent) {
-                    secondaryDisplay.textContent = secondaryDisplay.textContent
-                        .slice(0, secondaryDisplay.textContent.length - 3)
-                        .concat(` ${event.target.textContent} `);
-                } else if (binaryOperations.includes(secondaryDisplay.textContent.at(-2))) {
-                    const res = calculate();
-                    if (res === ZERO_DIVISION_ERROR) {
-                        primaryDisplay.textContent = ZERO_DIVISION_ERROR;
-                        secondaryDisplay.textContent = "";
-                        isError = true;
-                    } else {
-                        secondaryDisplay.textContent = res;
-                        secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${event.target.textContent} `);
-                        primaryDisplay.textContent = "0";
-                    }
-                } else {
-                    secondaryDisplay.textContent = secondaryDisplay.textContent
-                        .concat(primaryDisplay.textContent)
-                        .concat(` ${event.target.textContent} `);
-                    primaryDisplay.textContent = "0";
-                }
-            } else if (unaryOperations.includes(event.target.id)) {
-                const res = operateOnUnary(event.target.id);
-                if (res) {
+    document.addEventListener("keydown", listen);
+
+
+    function listen(event) {
+        let targetContent;
+        let targetId;
+        if (event.type === "click") {
+            targetContent = event.target.textContent;
+            targetId = event.target.id;
+        } else if (event.type === "keydown") {
+            targetContent = event.key;
+            switch (targetContent) {
+                case "~":
+                    targetId = "negation";
+                    break;
+                case "%":
+                    targetId = "percentage";
+                    break;
+                case "Delete":
+                    targetId = "all-clear";
+                    break;
+                case "Enter":
+                case "=":
+                    targetId = "equals";
+                    break;
+                case "Backspace":
+                    targetId = "delete";
+                    break;
+            }
+        }
+
+        if (isError) {
+            isError = false;
+            primaryDisplay.textContent = "0";
+        }
+
+        if ((targetContent === "-" && !primaryDisplay.textContent) || digits.includes(targetContent)) {
+            if (targetContent !== "." || !primaryDisplay.textContent.includes(".")) {
+                let res = primaryDisplay.textContent.concat(targetContent)
+                if (targetContent !== "." && targetContent !== "0") {
+                    primaryDisplay.textContent = Number(res);
+                } else if (primaryDisplay.textContent !== "0" || targetContent !== "0") {
                     primaryDisplay.textContent = res;
                 }
-            } else if (event.target.id === "equals") {
+            }
+        } else if ((secondaryDisplay.textContent || primaryDisplay.textContent) && binaryOperations.includes(targetContent)) {
+            if (!primaryDisplay.textContent) {
+                secondaryDisplay.textContent = secondaryDisplay.textContent
+                    .slice(0, secondaryDisplay.textContent.length - 3)
+                    .concat(` ${targetContent} `);
+            } else if (binaryOperations.includes(secondaryDisplay.textContent.at(-2))) {
                 const res = calculate();
                 if (res === ZERO_DIVISION_ERROR) {
+                    primaryDisplay.textContent = ZERO_DIVISION_ERROR;
+                    secondaryDisplay.textContent = "";
                     isError = true;
+                } else {
+                    secondaryDisplay.textContent = res;
+                    secondaryDisplay.textContent = secondaryDisplay.textContent.concat(` ${targetContent} `);
+                    primaryDisplay.textContent = "0";
                 }
-                primaryDisplay.textContent = res;
-                secondaryDisplay.textContent = "";
-            } else if (event.target.id === "delete") {
-                primaryDisplay.textContent = primaryDisplay.textContent.slice(0, primaryDisplay.textContent.length - 1);
+            } else {
+                secondaryDisplay.textContent = secondaryDisplay.textContent
+                    .concat(primaryDisplay.textContent)
+                    .concat(` ${targetContent} `);
+                primaryDisplay.textContent = "0";
             }
-        });
-    });
+        } else if (unaryOperations.includes(targetId)) {
+            const res = operateOnUnary(targetId);
+            if (res) {
+                primaryDisplay.textContent = res;
+            }
+        } else if (targetId === "equals") {
+            const res = calculate();
+            if (res === ZERO_DIVISION_ERROR) {
+                isError = true;
+            }
+            primaryDisplay.textContent = res;
+            secondaryDisplay.textContent = "";
+        } else if (targetId === "delete") {
+            primaryDisplay.textContent = primaryDisplay.textContent.slice(0, primaryDisplay.textContent.length - 1);
+        }
+    }
 }
 
 function operateOnUnary(type) {
@@ -89,6 +121,7 @@ function calculate() {
     const operand2 = primaryDisplay.textContent;
 
     if (!operand2) return operand1;
+    if (!operand1) return operand2;
     
     switch (operator) {
         case "+":
