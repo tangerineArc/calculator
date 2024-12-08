@@ -1,7 +1,5 @@
 "use strict";
 
-/* TO-DO: Prevent input on integer overflow in js */
-
 const ZERO_DIVISION_ERROR = ":(";
 
 const secondaryDisplay = document.querySelector(".secondary-display");
@@ -21,7 +19,6 @@ function setButtonListeners() {
     });
 
     document.addEventListener("keydown", listen);
-
 
     function listen(event) {
         let targetContent;
